@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <meta charset="utf-8">
+  <title>轮播</title>
+  <style>
+  .window{
+    border:10px solid blue;
+    width:320px;
+    overflow:hidden;
+  }
+  .images{
+     display:flex;
+     align-items:flex-start;
+     transition:transform 0.5s;
+   }
+   button{
+     border:2px solid red;
+     margin-right:10px;
+   }
+  .red{
+    color:red;
+  }
+  </style>
+</head>
+<body>
+  <div class ="window">
+    <div class ="images" id ="images">
+      <img src="https://electrictower.ru/cats/cats/cat5.jpg" alt="" width=320px height =240px>
+      <img src="http://zoobooks.com/wp-content/uploads/2012/12/cat.jpg" alt="" width=320px height =240px>
+      <img src="http://pixcorners.com/wp-content/uploads/2017/01/Beautiful-Cute-Cat-Wallpaper-640x480.jpg" alt="" width=320px height =240px>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY0zdwH3Hspb4AhVL5_OikS7tf2zJqqTiQjo0sU8bUXHH8GeJf6Q" alt="" width=320px height =240px>
+    </div>
+  </div>
+  <span id ="buttons">
+    <span>第一张</span>
+    <span>第二张</span>
+    <span>第三张</span>
+    <span>第四张</span>
+  </span>
+</body>
+<script>
+var $allButtons = $('#buttons>span');
+console.log($allButtons);
+for (let i = 0; i < $allButtons.length; i++) {
+	$($allButtons[i]).on('click', function(x) {
+		var btnindex = $(x.currentTarget).index();
+		var s = btnindex * (-320);
+		$("#images").css({
+			transform: 'translateX(' + s + 'px)'
+		})
+		$allButtons.eq(btnindex).addClass('red').siblings('.red').removeClass('red')
+		n = btnindex;
+	})
+}
+
+var n = 0;
+var size = $allButtons.length;
+$allButtons.eq(n % size).trigger('click');
+var timerid = setInterval(function() {
+	n++;
+	$allButtons.eq(n % size).trigger('click')
+}, 2000)
+
+$('.window').on('mouseenter', function() {
+	window.clearInterval(timerid);
+})
+$('.window').on('mouseleave', function() {
+	timerid = setInterval(function() {
+		n++;
+		$allButtons.eq(n % size).trigger('click')
+	}, 2000)
+})
+</script>
+</html>
